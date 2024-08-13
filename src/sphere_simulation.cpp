@@ -1,6 +1,7 @@
 #include "sphere_simulation.h"
 #include "mod.h"
 #include "vec3.h"
+#include "config.h"
 
 #include <limits>
 #include <random>

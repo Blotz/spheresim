@@ -27,8 +27,10 @@ target_link_libraries(spheresim Eigen3::Eigen sfml-graphics sfml-window sfml-sys
 add_executable(tests 
     tests/test_main.cpp
     tests/test_sphere.cpp
+    tests/test_sphere_simulation.cpp
 
     src/sphere.cpp
+    src/sphere_simulation.cpp
 )
 target_link_libraries(tests Catch2::Catch2WithMain Eigen3::Eigen sfml-graphics sfml-window sfml-system)
 

@@ -14,9 +14,9 @@ double collide(const sphere* s1, const sphere* s2) {
 
     double combined_radius = s1->radius + s2->radius;
 
-    double a = dot(relative_velocity, relative_velocity);
-    double b = 2 * dot(relative_velocity, relative_position);
-    double c = dot(relative_position, relative_position) - combined_radius * combined_radius;
+    double a = relative_velocity.dot(relative_velocity);
+    double b = 2 * relative_velocity.dot(relative_position);
+    double c = relative_position.dot(relative_position) - combined_radius * combined_radius;
     
     double discriminant = b * b - 4 * a * c;
 
@@ -40,10 +40,11 @@ void sphere::update_position(double dt) {
 }
 
 vec3 sphere::collision_velocity(const sphere& other) const {
-    vec3 normal = unit_vector(other.center - this->center);
+    vec3 normal = other.center - this->center;
+    normal.normalize();
     vec3 relative_velocity = this->velocity - other.velocity;
 
-    double velocity_along_normal = dot(relative_velocity, normal);
+    double velocity_along_normal = relative_velocity.dot(normal);
 
     // If the spheres are moving apart, no collision occurs
     if (velocity_along_normal < 0) {
