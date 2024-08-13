@@ -24,7 +24,12 @@ add_executable(spheresim
 target_link_libraries(spheresim Eigen3::Eigen sfml-graphics sfml-window sfml-system)
 
 # Add tests
-add_executable(tests tests/test_main.cpp)
+add_executable(tests 
+    tests/test_main.cpp
+    tests/test_sphere.cpp
+
+    src/sphere.cpp
+)
 target_link_libraries(tests Catch2::Catch2WithMain Eigen3::Eigen sfml-graphics sfml-window sfml-system)
 
 # Enable testing

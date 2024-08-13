@@ -108,7 +108,7 @@ vec3 sphere::collision_velocity(const sphere& other) const {
     double velocity_along_normal = dot(relative_velocity, normal);
 
     // If the spheres are moving apart, no collision occurs
-    if (velocity_along_normal > 0) {
+    if (velocity_along_normal < 0) {
         return this->velocity;
     }
 
