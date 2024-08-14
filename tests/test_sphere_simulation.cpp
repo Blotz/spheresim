@@ -19,8 +19,8 @@ TEST_CASE("Sphere Sim Collision Detection", "[sphere_sim]") {
   spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
   spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
 
-  REQUIRE(collide(&spheres[0], &spheres[1]) >= 0.0);
   // passes if collision detected
+  REQUIRE(collide(&spheres[0], &spheres[1]) >= 0.0);
 
   sphere_simulation sim1(2, spheres);
   spheres = nullptr;

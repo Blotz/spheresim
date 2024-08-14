@@ -90,6 +90,7 @@ void sphere_simulation::handle_event(Event &event) {
 
   // Move to the time of the event
   update_positions(event.time - current_time);
+  current_time = event.time;
 
   // Update velocities
   vec3 v1 = event.s1->collision_velocity(event.s2);
@@ -102,7 +103,7 @@ void sphere_simulation::handle_event(Event &event) {
   event.s2->decrement_collision_checks();
 
   // Add collision time to the vector
-  this->collision_times.push_back(current_time + collision_time);
+  this->collision_times.push_back(current_time);
 
   this->find_collision_events(event.s1);
   this->find_collision_events(event.s2);
