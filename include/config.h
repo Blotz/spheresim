@@ -1,0 +1,8 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define DIMENSIONS 3
+#define MAX_COLLISIONS_CHECKS 1
+#define MAX_SIMULATION_TIME 1.0
+
+#endif // CONFIG_H

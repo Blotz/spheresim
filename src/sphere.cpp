@@ -1,7 +1,7 @@
 #include <cmath>
 
-#include "vec3.h"
 #include "sphere.h"
+#include "vec3.h"
 
 
 double collide(const sphere* s1, const sphere* s2) {
@@ -39,10 +39,10 @@ void sphere::update_position(double dt) {
     center += velocity * dt;
 }
 
-vec3 sphere::collision_velocity(const sphere& other) const {
-    vec3 normal = other.center - this->center;
+vec3 sphere::collision_velocity(const sphere* other) {
+    vec3 normal = other->center - this->center;
     normal.normalize();
-    vec3 relative_velocity = this->velocity - other.velocity;
+    vec3 relative_velocity = this->velocity - other->velocity;
 
     double velocity_along_normal = relative_velocity.dot(normal);
 
@@ -51,5 +51,5 @@ vec3 sphere::collision_velocity(const sphere& other) const {
         return this->velocity;
     }
 
-    return this->velocity - velocity_along_normal * normal;
+    return (this->velocity - velocity_along_normal * normal);
 }

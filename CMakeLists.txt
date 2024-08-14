@@ -9,15 +9,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # Find dependencies
-find_package(Catch2 REQUIRED)
+find_package(Catch2 3 REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 
 # Add the executable
 add_executable(spheresim 
     src/main.cpp
-    src/sphere_simulation.cpp 
     src/sphere.cpp
+    src/sphere_simulation.cpp 
 )
 
 # Link the libraries to the executable

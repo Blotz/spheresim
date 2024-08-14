@@ -121,33 +121,33 @@ int main() {
 
   // return 0;
 
-  point3 p1 = point3(0.2, 0.0, 0.0);
-  point3 p2 = point3(0.9, 0.0, 0.0);
-  vec3 v1 = vec3(-1.0, 0.0, 0.0);
-  vec3 v2 = vec3(0.0, 0.0, 0.0);
+  // point3 p1 = point3(0.2, 0.0, 0.0);
+  // point3 p2 = point3(0.9, 0.0, 0.0);
+  // vec3 v1 = vec3(-1.0, 0.0, 0.0);
+  // vec3 v2 = vec3(0.0, 0.0, 0.0);
 
-  sphere s1 = sphere(0.1, p1, v1, 10, 1.0);
-  sphere s2 = sphere(0.1, p2, v2, 10, 1.0);
+  // sphere s1 = sphere(0.1, p1, v1);
+  // sphere s2 = sphere(0.1, p2, v2);
   
-  std::cout << s1 << std::endl;
-  std::cout << s2 << std::endl;
+  // std::cout << s1 << std::endl;
+  // std::cout << s2 << std::endl;
   
-  std::cout << s1 << " collides " << s2 << " in " << collide(&s1, &s2) << std::endl;
-  double t = collide(&s1, &s2);
+  // std::cout << s1 << " collides " << s2 << " in " << collide(&s1, &s2) << std::endl;
+  // double t = collide(&s1, &s2);
 
-  s1.update_position(t);
-  s2.update_position(t);
+  // s1.update_position(t);
+  // s2.update_position(t);
 
-  v1 = s1.collision_velocity(s2);
-  v2 = s2.collision_velocity(s1);
+  // v1 = s1.collision_velocity(&s2);
+  // v2 = s2.collision_velocity(&s1);
 
-  s1.set_velocity(v1);
-  s2.set_velocity(v2);
+  // s1.set_velocity(v1);
+  // s2.set_velocity(v2);
 
-  std::cout << s1.get_center() << std::endl;
-  std::cout << s2.get_center() << std::endl;
+  // std::cout << s1.get_center() << std::endl;
+  // std::cout << s2.get_center() << std::endl;
 
-  std::cout << s1 << std::endl;
-  std::cout << s2 << std::endl;
+  // std::cout << s1 << std::endl;
+  // std::cout << s2 << std::endl;
   return 0;
 }
