@@ -164,13 +164,11 @@ std::vector<point3> sphere_simulation::get_images(sphere *s) {
 
 void sphere_simulation::wrap_around(sphere *s) {
   point3 center = s->get_center();
-  point3 future_center =
-      center + s->get_velocity() * (this->max_time - this->current_time);
 
   for (int i = 0; i < DIMENSIONS; i++) {
-    if (future_center[i] > this->torus_size) {
+    if (center[i] > this->torus_size) {
       center[i] -= this->torus_size;
-    } else if (future_center[i] < 0) {
+    } else if (center[i] < 0) {
       center[i] += this->torus_size;
     }
   }
