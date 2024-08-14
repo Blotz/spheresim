@@ -55,6 +55,7 @@ public:
 
   vec3 &get_velocity() { return this->velocity; }
   point3 &get_center() { return this->center; }
+  // point3 *get_center() { return &this->center; }
   int get_max_collision_checks() { return this->max_collision_checks; }
   double get_radius() { return this->radius; }
 

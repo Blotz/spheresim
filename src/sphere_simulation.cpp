@@ -81,16 +81,19 @@ void sphere_simulation::run_simulation_step() {
 }
 
 void sphere_simulation::handle_event(Event &event) {
+  // Move to the time of the event
+  update_positions(event.time - current_time);
+  current_time = event.time;
+
+  // wrap_around(event.s1);
+  // wrap_around(event.s2);
+
   // Check if spheres still collide at this time
   double collision_time = collide(event.s1, event.s2);
 
   if (collision_time < 0) {
     return; // invalidated by previous collision. discard event.
   }
-
-  // Move to the time of the event
-  update_positions(event.time - current_time);
-  current_time = event.time;
 
   // Update velocities
   vec3 v1 = event.s1->collision_velocity(event.s2);
@@ -134,20 +137,20 @@ void sphere_simulation::find_collision_events(sphere *s1) {
     }
 
     for (int k = 0; k < s1_images.size(); k++) {
-      spheres[j].set_position(s1_images[k]);
+      s1->set_position(s1_images[k]);
       add_collision_event(s1, &spheres[j]);
     }
   }
 }
 
 std::vector<point3> sphere_simulation::get_images(sphere *s) {
-  point3 center = s->get_center();
+  point3 &center = s->get_center();
   point3 future_center =
       center + s->get_velocity() * (this->max_time - this->current_time);
   std::vector<point3> tarus_images = std::vector<point3>();
 
   for (int i = 0; i < DIMENSIONS; i++) {
-    if (future_center[i] > this->torus_size) {
+    if (future_center[i] >= this->torus_size) {
       point3 image = center;
       image[i] -= this->torus_size;
       tarus_images.push_back(image);
@@ -164,10 +167,10 @@ std::vector<point3> sphere_simulation::get_images(sphere *s) {
 }
 
 void sphere_simulation::wrap_around(sphere *s) {
-  point3 center = s->get_center();
+  point3 &center = s->get_center();
 
   for (int i = 0; i < DIMENSIONS; i++) {
-    if (center[i] > this->torus_size) {
+    if (center[i] >= this->torus_size) {
       center[i] -= this->torus_size;
     } else if (center[i] < 0) {
       center[i] += this->torus_size;
