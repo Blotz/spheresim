@@ -13,10 +13,14 @@ TEST_CASE("Sphere Sim Constructor", "[sphere_sim]") {
 }
 
 TEST_CASE("Sphere Sim Collision Detection", "[sphere_sim]") {
+
   // simple collision
   sphere* spheres = new sphere[2];
   spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
   spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
+
+  REQUIRE(collide(&spheres[0], &spheres[1]) >= 0.0);
+  // passes if collision detected
 
   sphere_simulation sim1(2, spheres);
   spheres = nullptr;
