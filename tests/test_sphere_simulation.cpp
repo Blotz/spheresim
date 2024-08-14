@@ -26,8 +26,8 @@ TEST_CASE("Sphere Sim Collision Detection", "[sphere_sim]") {
 
   REQUIRE(sim1.get_collision_times().size() == 1);
   // no collision
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
-  spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(2.0, 0, 0));
+  // spheres = new sphere[2];
+  // spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
+  // spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(2.0, 0, 0));
 
 }

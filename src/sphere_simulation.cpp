@@ -46,6 +46,7 @@ sphere_simulation::sphere_simulation(int n) {
 sphere_simulation::sphere_simulation(int n, sphere *spheres) {
   this->max_time = MAX_SIMULATION_TIME;
   this->current_time = 0.0;
+  this->torus_size = 1.0;
   // data structures
   this->collision_times = std::vector<double>();
   this->event_queue = std::priority_queue<Event>();
@@ -144,20 +145,16 @@ std::vector<point3> sphere_simulation::get_images(sphere *s) {
       center + s->get_velocity() * (this->max_time - this->current_time);
   std::vector<point3> tarus_images = std::vector<point3>();
 
-  if (future_center[0] > this->torus_size) {
-    tarus_images.push_back(point3(-this->torus_size, 0, 0));
-  } else if (future_center[0] < 0) {
-    tarus_images.push_back(point3(this->torus_size, 0, 0));
-  }
-  if (future_center[1] > this->torus_size) {
-    tarus_images.push_back(point3(0, -this->torus_size, 0));
-  } else if (future_center[1] < 0) {
-    tarus_images.push_back(point3(0, this->torus_size, 0));
-  }
-  if (future_center[2] > this->torus_size) {
-    tarus_images.push_back(point3(0, 0, -this->torus_size));
-  } else if (future_center[2] < 0) {
-    tarus_images.push_back(point3(0, 0, this->torus_size));
+  for (int i = 0; i < DIMENSIONS; i++) {
+    if (future_center[i] > this->torus_size) {
+      point3 image = center;
+      image[i] -= this->torus_size;
+      tarus_images.push_back(image);
+    } else if (future_center[i] < 0) {
+      point3 image = center;
+      image[i] += this->torus_size;
+      tarus_images.push_back(image);
+    }
   }
 
   tarus_images.push_back(center);
