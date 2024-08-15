@@ -10,7 +10,7 @@ TEST_CASE("Sphere Constructor", "[sphere]") {
   sphere s2(1, point3(0, 0, 0), vec3(1, 0, 0));
 }
 
-TEST_CASE_METHOD(sphere, "Sphere Collide", "[sphere]") {
+TEST_CASE("Sphere Collide", "[sphere]") {
   // colliding sphere
   sphere s3(1, point3(0, 0, 0), vec3(1, 0, 0));
   sphere s4(1, point3(3, 0, 0), vec3(-1, 0, 0));
@@ -32,7 +32,7 @@ TEST_CASE_METHOD(sphere, "Sphere Collide", "[sphere]") {
   REQUIRE(collide(&s7, &s8) == -1.0);
 }
 
-TEST_CASE_METHOD(sphere, "Sphere Update Position", "[sphere]") {
+TEST_CASE("Sphere Update Position", "[sphere]") {
   sphere s1(1, point3(0, 0, 0), vec3(1, 0, 0));
   s1.update_position(1);
   REQUIRE(s1.get_center() == point3(1, 0, 0));
@@ -45,7 +45,7 @@ TEST_CASE_METHOD(sphere, "Sphere Update Position", "[sphere]") {
   REQUIRE(collide(&s2, &s3) == 0.0);
 }
 
-TEST_CASE_METHOD(sphere, "Sphere Collision Velocity", "[sphere]") {
+TEST_CASE("Sphere Collision Velocity", "[sphere]") {
   // moving towards each other
   sphere s1(1, point3(0, 0, 0), vec3(1, 0, 0));
   sphere s2(1, point3(2, 0, 0), vec3(-1, 0, 0));

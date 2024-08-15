@@ -32,7 +32,7 @@ void write_data_to_csv(const std::vector<double> &vec,
   }
 
   // Iterate through the vector and write each element to the file
-  for (size_t i = 0; i < vec.size(); ++i) {
+  for (int i = 0; i < vec.size(); ++i) {
     file << vec[i];
     // Add a comma after each element except the last one
     if (i != vec.size() - 1) {
@@ -111,15 +111,15 @@ int main() {
 
   //   return 0;
 
-  // sphere_simulation simulation(10000);
-  // simulation.initialize_events();
-  // simulation.run_simulation();
-  // std::cout << simulation << std::endl;
-  // std::vector<double> collision_times = simulation.get_collision_times();
-  // std::cout << "Number of collisions: " << collision_times.size() <<
-  // std::endl;
+  sphere_simulation simulation(10000);
+  simulation.initialize_events();
+  simulation.run_simulation();
+  std::cout << simulation << std::endl;
+  std::vector<double> collision_times = simulation.get_collision_times();
+  std::cout << "Number of collisions: " << collision_times.size() <<
+  std::endl;
 
-  // return 0;
+  return 0;
 
   // point3 p1 = point3(0.2, 0.0, 0.0);
   // point3 p2 = point3(0.9, 0.0, 0.0);
