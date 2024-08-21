@@ -54,7 +54,7 @@ public:
   /**
    * updates the position of the sphere by time dt.
    */
-  void update_position(double dt);
+  void update_position(long double dt);
 
   /**
    * decrements the number of collision checks left for the sphere.

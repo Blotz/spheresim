@@ -20,7 +20,7 @@ void draw_sphere(sf::RenderWindow &window, sphere &s, float scale,
   window.draw(shape);
 }
 
-void write_data_to_csv(const std::vector<double> &vec,
+void write_data_to_csv(const std::vector<long double> &vec,
                        const std::string &filename) {
   // Create an output file stream
   std::ofstream file(filename, std::ios::app);
@@ -93,7 +93,7 @@ void run_simulation(int n) {
   simulation.initialize_events();
   simulation.run_simulation();
 
-  std::vector<double> collision_times = simulation.get_collision_times();
+  std::vector<long double> collision_times = simulation.get_collision_times();
 
   std::cout << "Number of collisions: " << collision_times.size() << std::endl;
 
@@ -101,53 +101,18 @@ void run_simulation(int n) {
 }
 
 int main() {
-  // for (int i = 0; i < 5; i++) {
-  //   std::cout << "Running simulation " << i << std::endl;
-  //   run_simulation(10000);
-  // }
-
-  //   run_gui_simulation(10000);
-  // run_simulation(10);
-
-  //   return 0;
+  std::cout << "Starting simulation" << std::endl;
 
   sphere_simulation simulation(10000);
-  simulation.initialize_events();
-  simulation.run_simulation();
   std::cout << simulation << std::endl;
-  std::vector<double> collision_times = simulation.get_collision_times();
+
+  simulation.initialize_events();
+  std::cout << "Running simulation" << std::endl;
+
+  simulation.run_simulation();
+  std::vector<long double> collision_times = simulation.get_collision_times();
   std::cout << "Number of collisions: " << collision_times.size() <<
   std::endl;
 
-  return 0;
-
-  // point3 p1 = point3(0.2, 0.0, 0.0);
-  // point3 p2 = point3(0.9, 0.0, 0.0);
-  // vec3 v1 = vec3(-1.0, 0.0, 0.0);
-  // vec3 v2 = vec3(0.0, 0.0, 0.0);
-
-  // sphere s1 = sphere(0.1, p1, v1);
-  // sphere s2 = sphere(0.1, p2, v2);
-  
-  // std::cout << s1 << std::endl;
-  // std::cout << s2 << std::endl;
-  
-  // std::cout << s1 << " collides " << s2 << " in " << collide(&s1, &s2) << std::endl;
-  // double t = collide(&s1, &s2);
-
-  // s1.update_position(t);
-  // s2.update_position(t);
-
-  // v1 = s1.collision_velocity(&s2);
-  // v2 = s2.collision_velocity(&s1);
-
-  // s1.set_velocity(v1);
-  // s2.set_velocity(v2);
-
-  // std::cout << s1.get_center() << std::endl;
-  // std::cout << s2.get_center() << std::endl;
-
-  // std::cout << s1 << std::endl;
-  // std::cout << s2 << std::endl;
   return 0;
 }

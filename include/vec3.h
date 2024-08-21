@@ -4,7 +4,7 @@
 #include <Eigen/Dense>
 #include "config.h"
 
-using vec3 = Eigen::Vector<double, DIMENSIONS>;
-using point3 = Eigen::Vector<double, DIMENSIONS>;
+using vec3 = Eigen::Vector<long double, DIMENSIONS>;
+using point3 = Eigen::Vector<long double, DIMENSIONS>;
 
 #endif

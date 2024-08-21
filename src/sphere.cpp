@@ -35,7 +35,7 @@ double collide(const sphere* s1, const sphere* s2) {
     return -1;
 }
 
-void sphere::update_position(double dt) {
+void sphere::update_position(long double dt) {
     center += velocity * dt;
 }
 
