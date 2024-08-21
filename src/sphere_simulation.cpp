@@ -71,6 +71,17 @@ void sphere_simulation::run_simulation() {
   while (!event_queue.empty() && current_time < max_time) {
     run_simulation_step();
   }
+  // if there are no more events, update the positions to the max time
+  if (current_time < max_time) {
+    double dt = max_time - current_time;
+    update_positions(dt);
+    
+    for (int i = 0; i < number_of_spheres; i++) {
+      wrap_around(&spheres[i]);
+    }
+    current_time = max_time;
+  }
+
 }
 
 void sphere_simulation::run_simulation_step() {
@@ -150,11 +161,11 @@ std::vector<point3> sphere_simulation::get_images(sphere *s) {
   std::vector<point3> tarus_images = std::vector<point3>();
 
   for (int i = 0; i < DIMENSIONS; i++) {
-    if (future_center[i] >= this->torus_size) {
+    if (future_center[i] >= this->torus_size - this->epsilon) {
       point3 image = center;
       image[i] -= this->torus_size;
       tarus_images.push_back(image);
-    } else if (future_center[i] < 0) {
+    } else if (future_center[i] + this->epsilon < 0) {
       point3 image = center;
       image[i] += this->torus_size;
       tarus_images.push_back(image);
