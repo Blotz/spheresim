@@ -6,14 +6,29 @@
 #include "config.h"
 #include "vec3.h"
 
+struct UUID {
+  int id;
+  UUID() {static int next_id = 0; id = next_id++;}
+  UUID(int id) : id(id) {}
+  inline friend bool operator==(const UUID &u1, const UUID &u2) {
+    return u1.id == u2.id;
+  }
+  inline friend bool operator!=(const UUID &u1, const UUID &u2) {
+    return !(u1 == u2);
+  }
+};
+
 class sphere {
 public:
   sphere() : radius(0), center(point3(0, 0, 0)), velocity(vec3(0, 0, 0)) {
     this->max_collision_checks = MAX_COLLISIONS_CHECKS;
+    this->id = UUID();
+
   }
   sphere(double radius, point3 center, vec3 velocity)
       : radius(fmax(0, radius)), center(center), velocity(velocity) {
     this->max_collision_checks = MAX_COLLISIONS_CHECKS;
+    this->id = UUID();
   }
 
   /**
@@ -66,12 +81,10 @@ public:
     return out;
   }
   inline friend bool operator==(const sphere &s1, const sphere &s2) {
-    return s1.radius == s2.radius && s1.center == s2.center &&
-           s1.velocity == s2.velocity &&
-           s1.max_collision_checks == s2.max_collision_checks;
+    return s1.id == s2.id;
   }
   inline friend bool operator!=(const sphere &s1, const sphere &s2) {
-    return !(s1 == s2);
+    return s1.id != s2.id;
   }
 
 private:
@@ -79,6 +92,7 @@ private:
   point3 center;
   vec3 velocity;
   int max_collision_checks;
+  UUID id;
 };
 
 #endif

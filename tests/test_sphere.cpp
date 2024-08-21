@@ -10,6 +10,14 @@ TEST_CASE("Sphere Constructor", "[sphere]") {
   sphere s2(1, point3(0, 0, 0), vec3(1, 0, 0));
 }
 
+TEST_CASE("Sphere Equals") {
+  sphere s1(1, point3(0, 0, 0), vec3(1, 0, 0));
+  sphere s2(1, point3(0, 0, 0), vec3(1, 0, 0));
+  REQUIRE(s1 == s1);
+  REQUIRE(s2 == s2);
+  REQUIRE(!(s1 == s2));
+}
+
 TEST_CASE("Sphere Collide", "[sphere]") {
   // colliding sphere
   sphere s3(1, point3(0, 0, 0), vec3(1, 0, 0));
