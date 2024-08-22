@@ -16,7 +16,7 @@ find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 # Add the executable
 add_executable(spheresim 
     src/main.cpp
-    src/sphere.cpp
+    src/Sphere.cpp
     src/sphere_simulation.cpp 
 )
 
@@ -29,7 +29,7 @@ add_executable(tests
     tests/test_sphere.cpp
     tests/test_sphere_simulation.cpp
 
-    src/sphere.cpp
+    src/Sphere.cpp
     src/sphere_simulation.cpp
 )
 target_link_libraries(tests Catch2::Catch2WithMain Eigen3::Eigen sfml-graphics sfml-window sfml-system)
