@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <vector>
+#include <memory>
 
 #include "SpatialGrid.h"
 #include "Sphere.h"
@@ -38,7 +39,7 @@ private:
 
   std::vector<long double> collision_times;
   std::priority_queue<Event> event_queue;
-  SpatialGrid grid;
+  std::unique_ptr<SpatialGrid> grid;
 
 
   void handle_event(Event &event);

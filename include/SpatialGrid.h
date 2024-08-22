@@ -20,7 +20,8 @@ struct GridCell {
 
 class SpatialGrid {
 public:
-  SpatialGrid(long double cell_size, int grid_size, int num_spheres);
+  SpatialGrid() = delete;
+  SpatialGrid(long double cell_size, int grid_size, int sphere_count, double sphere_radius);
   ~SpatialGrid();
 
 

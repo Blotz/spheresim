@@ -8,7 +8,7 @@
 #include "Sphere.h"
 
 
-SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int num_spheres) {
+SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count, double sphere_radius) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::normal_distribution<long double> normal_dist(0, 1);
@@ -22,7 +22,7 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int num_spheres) 
     throw std::bad_alloc();
   }
 
-  for (int i = 0; i < num_spheres; i++) {
+  for (int i = 0; i < sphere_count; i++) {
     point3 center{};
     vec3 velocity{};
 
@@ -34,7 +34,7 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int num_spheres) 
     velocity.normalize();
 
     // radius = epsilon/2
-    Sphere *s = new Sphere(cell_size / 2.0, center, velocity);
+    Sphere *s = new Sphere(sphere_radius, center, velocity);
     add_sphere(s);
   }
 }
