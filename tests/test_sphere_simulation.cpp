@@ -2,23 +2,23 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "sphere.h"
+#include "Sphere.h"
 #include "sphere_simulation.h"
 
 
 TEST_CASE("Sphere Sim Constructor") {
   sphere_simulation sim(10000);
 
-  sphere_simulation sim2(10, new sphere[10]);
+  sphere_simulation sim2(10, new Sphere[10]);
 }
 
 TEST_CASE("Sphere Wrap Around Detection") {
-  sphere* spheres;
+  Sphere* spheres;
 
   // no wrap around
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
-  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
 
   sphere_simulation sim1(2, spheres);
   sim1.initialize_events();
@@ -33,9 +33,9 @@ TEST_CASE("Sphere Wrap Around Detection") {
   REQUIRE(spheres[1].get_velocity().isApprox(vec3(0, 0, 0)));
 
   // positive wrap around
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.75, 0.5, 0.5), vec3(1, 0, 0));
-  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.75, 0.5, 0.5), vec3(1, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
 
   sphere_simulation sim2(2, spheres);
   sim2.initialize_events();
@@ -50,9 +50,9 @@ TEST_CASE("Sphere Wrap Around Detection") {
   REQUIRE(spheres[1].get_velocity().isApprox(vec3(1, 0, 0)));
 
   // negative wrap around
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.25, 0.5, 0.5), vec3(-1, 0, 0));
-  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.25, 0.5, 0.5), vec3(-1, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
 
   sphere_simulation sim3(2, spheres);
   sim3.initialize_events();
@@ -69,12 +69,12 @@ TEST_CASE("Sphere Wrap Around Detection") {
 }
 
 TEST_CASE("Sphere Sim Collision Detection") {
-  sphere* spheres;
+  Sphere* spheres;
 
   // simple collision
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
-  spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
 
   // passes if collision detected
   REQUIRE(collide(&spheres[0], &spheres[1]) >= 0.0);
@@ -87,9 +87,9 @@ TEST_CASE("Sphere Sim Collision Detection") {
   REQUIRE(sim1.get_collision_times().size() == 1);
 
   // no collision
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
-  spheres[1] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(2.0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.0, 0.5, 0.5), vec3(2.0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(1.0, 0.5, 0.5), vec3(2.0, 0, 0));
 
   // passes if no collision detected
   REQUIRE(collide(&spheres[0], &spheres[1]) == -1.0);
@@ -103,9 +103,9 @@ TEST_CASE("Sphere Sim Collision Detection") {
 
 
   // wrap around collision
-  spheres = new sphere[2];
-  spheres[0] = sphere(0.05, point3(0.3, 0.5, 0.5), vec3(-1.0, 0, 0));
-  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.3, 0.5, 0.5), vec3(-1.0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
 
   sphere_simulation sim3(2, spheres);
 
@@ -113,16 +113,40 @@ TEST_CASE("Sphere Sim Collision Detection") {
   sim3.run_simulation();
 
   REQUIRE(sim3.get_collision_times().size() == 1); 
+
+  // collisions at boundaries without intersecting the boundary
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.02, 0.2, 0.5), vec3(0, 1, 0));
+  spheres[1] = Sphere(0.05, point3(0.98, 0.8, 0.5), vec3(0, -1, 0));
+
+  sphere_simulation sim5(2, spheres);
+
+  sim5.initialize_events();
+  sim5.run_simulation();
+
+  REQUIRE(sim5.get_collision_times().size() == 1);
+
+  // collisions at boundaries with intersecting the boundary
+  spheres = new Sphere[2];
+  spheres[0] = Sphere(0.05, point3(0.02, 0.5, 0.5), vec3(0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(1, 0, 0));
+
+  sphere_simulation sim4(2, spheres);
+
+  sim4.initialize_events();
+  sim4.run_simulation();
+
+  REQUIRE(sim4.get_collision_times().size() == 1);
 }
 
 TEST_CASE("Sphere Sim Billiards Collision Detection") {
-  sphere* spheres;
+  Sphere* spheres;
 
   // simple collision
-  spheres = new sphere[3];
-  spheres[0] = sphere(0.05, point3(0.1, 0.5, 0.5), vec3(2.0, 0, 0));
-  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
-  spheres[2] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
+  spheres = new Sphere[3];
+  spheres[0] = Sphere(0.05, point3(0.1, 0.5, 0.5), vec3(2.0, 0, 0));
+  spheres[1] = Sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres[2] = Sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
 
   sphere_simulation sim1(3, spheres);
 

@@ -22,7 +22,7 @@ sphere_simulation::sphere_simulation(int n) {
   // data structures
   this->collision_times = std::vector<long double>();
   this->event_queue = std::priority_queue<Event>();
-  this->spheres = new sphere[this->number_of_spheres];
+  this->spheres = new Sphere[this->number_of_spheres];
 
   if (this->spheres == nullptr) {
     throw std::bad_alloc();
@@ -44,11 +44,11 @@ sphere_simulation::sphere_simulation(int n) {
     velocity.normalize();
 
     // radius = epsilon/2
-    this->spheres[i] = *new sphere(epsilon / 2.0, center, velocity);
+    this->spheres[i] = *new Sphere(epsilon / 2.0, center, velocity);
   }
 }
 
-sphere_simulation::sphere_simulation(int n, sphere *spheres) {
+sphere_simulation::sphere_simulation(int n, Sphere *spheres) {
   this->max_time = MAX_SIMULATION_TIME;
   this->current_time = 0.0;
   this->torus_size = 1.0;
@@ -134,7 +134,7 @@ void sphere_simulation::update_positions(long double dt) {
   }
 }
 
-void sphere_simulation::add_collision_event(sphere *s1, sphere *s2) {
+void sphere_simulation::add_collision_event(Sphere *s1, Sphere *s2) {
   long double collision_time = collide(s1, s2);
 
   if (collision_time >= 0) {
@@ -142,7 +142,7 @@ void sphere_simulation::add_collision_event(sphere *s1, sphere *s2) {
   }
 }
 
-void sphere_simulation::find_collision_events(sphere *s1) {
+void sphere_simulation::find_collision_events(Sphere *s1) {
   // Add new events for the affected spheres
   std::vector<point3> s1_images = get_images(s1);
 
@@ -158,7 +158,7 @@ void sphere_simulation::find_collision_events(sphere *s1) {
   }
 }
 
-std::vector<point3> sphere_simulation::get_images(sphere *s) {
+std::vector<point3> sphere_simulation::get_images(Sphere *s) {
   point3 &center = s->get_center();
   point3 future_center =
       center + s->get_velocity() * (this->max_time - this->current_time);
@@ -181,7 +181,7 @@ std::vector<point3> sphere_simulation::get_images(sphere *s) {
   return tarus_images;
 }
 
-void sphere_simulation::wrap_around(sphere *s) {
+void sphere_simulation::wrap_around(Sphere *s) {
   point3 &center = s->get_center();
 
   for (int i = 0; i < DIMENSIONS; i++) {

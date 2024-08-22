@@ -4,31 +4,31 @@
 #include <queue>
 #include <vector>
 
-#include "sphere.h"
+#include "Sphere.h"
 
 struct Event {
   long double time;
-  sphere *s1;
-  sphere *s2;
+  Sphere *s1;
+  Sphere *s2;
 
   bool operator<(const Event &other) const {
     return time > other.time; // for min-heap
   }
-  Event(long double time, sphere *s1, sphere *s2)
+  Event(long double time, Sphere *s1, Sphere *s2)
       : time(time), s1(s1), s2(s2) {}
 };
 
 class sphere_simulation {
 public:
   sphere_simulation(int n);
-  sphere_simulation(int n, sphere *sphere);
+  sphere_simulation(int n, Sphere *spheres);
   ~sphere_simulation();
 
   void run_simulation();
   void run_simulation_step();
   void initialize_events();
 
-  inline sphere *get_spheres() const { return spheres; }
+  inline Sphere *get_spheres() const { return spheres; }
   inline int get_number_of_spheres() const { return number_of_spheres; }
   inline const std::vector<long double> get_collision_times() const {
     return collision_times;
@@ -46,7 +46,7 @@ private:
   // data structs
   std::vector<long double> collision_times; // stores the collision times
   std::priority_queue<Event> event_queue;
-  sphere *spheres;
+  Sphere *spheres;
 
   // simulation parameters
   long double max_time;
@@ -57,11 +57,11 @@ private:
 
   // functions
   void handle_event(Event &event);
-  void add_collision_event(sphere *s1, sphere *s2);
-  void find_collision_events(sphere *s1);
-  void wrap_around(sphere *s);
+  void add_collision_event(Sphere *s1, Sphere *s2);
+  void find_collision_events(Sphere *s1);
+  void wrap_around(Sphere *s);
   void update_positions(long double dt);
-  std::vector<point3> get_images(sphere *s);
+  std::vector<point3> get_images(Sphere *s);
 };
 
 #endif
