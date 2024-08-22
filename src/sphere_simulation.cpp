@@ -25,7 +25,7 @@ sphere_simulation::sphere_simulation(int n) {
   this->spheres = new sphere[this->number_of_spheres];
 
   if (this->spheres == nullptr) {
-    throw std::invalid_argument("Could not initialize spheres.");
+    throw std::bad_alloc();
   }
 
   this->epsilon =
@@ -33,13 +33,18 @@ sphere_simulation::sphere_simulation(int n) {
 
   // Generate n spheres
   for (int i = 0; i < this->number_of_spheres; i++) {
-    point3 center(uniform_dist(gen), uniform_dist(gen), uniform_dist(gen));
-    vec3 velocity(normal_dist(gen), normal_dist(gen), normal_dist(gen));
+    point3 center{};
+    vec3 velocity{};
+
+    for (int j = 0; j < DIMENSIONS; j++) {
+      center[j] = uniform_dist(gen);
+      velocity[j] = normal_dist(gen);
+    }
+
     velocity.normalize();
 
-    sphere *s =
-        new sphere(epsilon / 2.0, center, velocity); // radius = epsilon/2
-    this->spheres[i] = *s;
+    // radius = epsilon/2
+    this->spheres[i] = *new sphere(epsilon / 2.0, center, velocity);
   }
 }
 
@@ -75,13 +80,12 @@ void sphere_simulation::run_simulation() {
   if (current_time < max_time) {
     long double dt = max_time - current_time;
     update_positions(dt);
-    
+
     for (int i = 0; i < number_of_spheres; i++) {
       wrap_around(&spheres[i]);
     }
     current_time = max_time;
   }
-
 }
 
 void sphere_simulation::run_simulation_step() {
