@@ -14,7 +14,8 @@ struct Event {
   bool operator<(const Event &other) const {
     return time > other.time; // for min-heap
   }
-  Event(long double time, sphere *s1, sphere *s2) : time(time), s1(s1), s2(s2) {}
+  Event(long double time, sphere *s1, sphere *s2)
+      : time(time), s1(s1), s2(s2) {}
 };
 
 class sphere_simulation {
@@ -27,7 +28,6 @@ public:
   void run_simulation_step();
   void initialize_events();
 
-
   inline sphere *get_spheres() const { return spheres; }
   inline int get_number_of_spheres() const { return number_of_spheres; }
   inline const std::vector<long double> get_collision_times() const {
@@ -38,8 +38,7 @@ public:
                                          const sphere_simulation &s) {
     out << "sphere_simulation { "
         << "number_of_spheres: " << s.number_of_spheres
-        << ", epsilon: " << s.epsilon 
-        << " }";
+        << ", epsilon: " << s.epsilon << " }";
     return out;
   }
 

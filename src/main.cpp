@@ -103,7 +103,7 @@ void run_simulation(int n) {
 int main() {
   std::cout << "Starting simulation" << std::endl;
 
-  sphere_simulation simulation(10000);
+  sphere_simulation simulation(1000);
   std::cout << simulation << std::endl;
 
   simulation.initialize_events();

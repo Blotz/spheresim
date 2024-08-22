@@ -25,8 +25,10 @@ TEST_CASE("Sphere Wrap Around Detection") {
   sim1.run_simulation();
 
   REQUIRE(sim1.get_collision_times().size() == 0);
+
   REQUIRE(spheres[0].get_center().isApprox(point3(0.5, 0.5, 0.5)));
   REQUIRE(spheres[1].get_center().isApprox(point3(0.5, 0.5, 0.5)));
+
   REQUIRE(spheres[0].get_velocity().isApprox(vec3(0, 0, 0)));
   REQUIRE(spheres[1].get_velocity().isApprox(vec3(0, 0, 0)));
 
@@ -40,8 +42,10 @@ TEST_CASE("Sphere Wrap Around Detection") {
   sim2.run_simulation();
 
   REQUIRE(sim2.get_collision_times().size() == 1);
+
   REQUIRE(spheres[0].get_center().isApprox(point3(0.4, 0.5, 0.5)));
   REQUIRE(spheres[1].get_center().isApprox(point3(0.85, 0.5, 0.5)));
+
   REQUIRE(spheres[0].get_velocity().isApprox(vec3(0, 0, 0)));
   REQUIRE(spheres[1].get_velocity().isApprox(vec3(1, 0, 0)));
 
@@ -55,8 +59,10 @@ TEST_CASE("Sphere Wrap Around Detection") {
   sim3.run_simulation();
 
   REQUIRE(sim3.get_collision_times().size() == 1);
+
   REQUIRE(spheres[0].get_center().isApprox(point3(0.6, 0.5, 0.5)));
   REQUIRE(spheres[1].get_center().isApprox(point3(0.15, 0.5, 0.5)));
+
   REQUIRE(spheres[0].get_velocity().isApprox(vec3(0, 0, 0)));
   REQUIRE(spheres[1].get_velocity().isApprox(vec3(-1, 0, 0)));
 
@@ -107,4 +113,35 @@ TEST_CASE("Sphere Sim Collision Detection") {
   sim3.run_simulation();
 
   REQUIRE(sim3.get_collision_times().size() == 1); 
+}
+
+TEST_CASE("Sphere Sim Billiards Collision Detection") {
+  sphere* spheres;
+
+  // simple collision
+  spheres = new sphere[3];
+  spheres[0] = sphere(0.05, point3(0.1, 0.5, 0.5), vec3(2.0, 0, 0));
+  spheres[1] = sphere(0.05, point3(0.5, 0.5, 0.5), vec3(0, 0, 0));
+  spheres[2] = sphere(0.05, point3(1.0, 0.5, 0.5), vec3(-2.0, 0, 0));
+
+  sphere_simulation sim1(3, spheres);
+
+  sim1.initialize_events();
+  sim1.run_simulation();
+
+  REQUIRE(sim1.get_collision_times().size() == 1);
+
+  REQUIRE(spheres[0].get_max_collision_checks() == 0);
+  REQUIRE(spheres[1].get_max_collision_checks() == 0);
+  REQUIRE(spheres[2].get_max_collision_checks() == 1);
+
+  REQUIRE(spheres[0].get_center().isApprox(point3(0.4, 0.5, 0.5)));
+  REQUIRE(spheres[1].get_center().isApprox(point3(0.2, 0.5, 0.5)));
+  REQUIRE(spheres[2].get_center().isApprox(point3(0.0, 0.5, 0.5)));
+
+  REQUIRE(spheres[0].get_velocity().isApprox(vec3(0, 0, 0)));
+  REQUIRE(spheres[1].get_velocity().isApprox(vec3(2, 0, 0)));
+  REQUIRE(spheres[2].get_velocity().isApprox(vec3(-2, 0, 0)));
+
+
 }
