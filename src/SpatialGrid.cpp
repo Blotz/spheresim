@@ -17,13 +17,14 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count,
   this->cell_size = cell_size;
   this->grid_size = grid_size;
   this->grid = new GridCell[grid_size * grid_size * grid_size];
-  this->spheres = new Sphere[sphere_count];
+  this->sphere_count = sphere_count;
+  this->spheres = new Sphere[this->sphere_count];
 
   if (this->grid == nullptr) {
     throw std::bad_alloc();
   }
 
-  for (int i = 0; i < sphere_count; i++) {
+  for (int i = 0; i < this->sphere_count; i++) {
     point3 center{};
     vec3 velocity{};
 
@@ -69,15 +70,6 @@ int SpatialGrid::get_cell_index(const point3 &p) {
   }
 
   return index;
-}
-
-int_point SpatialGrid::get_cell_position(const point3 &p) {
-  int_point cell_pos{};
-  for (int i = 0; i < DIMENSIONS; i++) {
-    cell_pos[i] = (int) (p[i] / cell_size);
-  }
-
-  return cell_pos;
 }
 
 void SpatialGrid::add_sphere(Sphere *s) {
@@ -142,4 +134,14 @@ std::vector<GridCell *> SpatialGrid::get_nearby_cells(int cell_index) {
   }
 
   return nearby_cells;
+}
+
+void SpatialGrid::update_positions(long double dt) {
+  for (int i = 0; i < this->sphere_count; i++) {
+    Sphere *s = &this->spheres[i];
+    point3 old_pos = s->get_center();
+    s->update_position(dt);
+    wrap_position(&s->get_center());
+    update_sphere(old_pos, s);
+  }
 }

@@ -35,6 +35,8 @@ public:
 
 private:
   long double current_time;
+  int sphere_count;
+  long double max_dt;
 
   std::vector<long double> collision_times;
   std::priority_queue<Event> event_queue;
@@ -43,8 +45,6 @@ private:
 
   void handle_event(Event &event);
   void find_collision_events(Sphere *s);
-  void update_positions(long double dt);
-  void add_collision(Sphere *s1, Sphere *s2);
 };
 
 #endif // EVENT_DRIVEN_SIMULATION_H
