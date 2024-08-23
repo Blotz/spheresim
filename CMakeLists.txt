@@ -18,6 +18,8 @@ add_executable(spheresim
     src/main.cpp
     src/Sphere.cpp
     src/sphere_simulation.cpp 
+    src/EventDrivenSimulation.cpp
+    src/SpatialGrid.cpp
 )
 
 # Link the libraries to the executable
@@ -31,6 +33,8 @@ add_executable(tests
 
     src/Sphere.cpp
     src/sphere_simulation.cpp
+    src/EventDrivenSimulation.cpp
+    src/SpatialGrid.cpp
 )
 target_link_libraries(tests Catch2::Catch2WithMain Eigen3::Eigen sfml-graphics sfml-window sfml-system)
 
