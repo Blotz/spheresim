@@ -20,11 +20,7 @@ struct UUID {
 
 class Sphere {
 public:
-  Sphere() : radius(0), center(point3(0, 0, 0)), velocity(vec3(0, 0, 0)) {
-    this->max_collision_checks = MAX_COLLISIONS_CHECKS;
-    this->id = UUID();
-
-  }
+  Sphere() = default;
   Sphere(double radius, point3 center, vec3 velocity)
       : radius(fmax(0, radius)), center(center), velocity(velocity) {
     this->max_collision_checks = MAX_COLLISIONS_CHECKS;
