@@ -17,6 +17,7 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count,
   this->cell_size = cell_size;
   this->grid_size = grid_size;
   this->grid = new GridCell[grid_size * grid_size * grid_size];
+  this->spheres = new Sphere[sphere_count];
 
   if (this->grid == nullptr) {
     throw std::bad_alloc();
@@ -34,8 +35,8 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count,
     velocity.normalize();
 
     // radius = epsilon/2
-    Sphere *s = new Sphere(sphere_radius, center, velocity);
-    add_sphere(s);
+    this->spheres[i] = Sphere(sphere_radius, center, velocity);;
+    add_sphere(&this->spheres[i]);
   }
 }
 
@@ -43,6 +44,11 @@ SpatialGrid::~SpatialGrid() {
   if (this->grid != nullptr) {
     delete[] this->grid;
     this->grid = nullptr;
+  }
+
+  if (this->spheres != nullptr) {
+    delete[] this->spheres;
+    this->spheres = nullptr;
   }
 }
 

@@ -44,7 +44,7 @@ sphere_simulation::sphere_simulation(int n) {
     velocity.normalize();
 
     // radius = epsilon/2
-    this->spheres[i] = *new Sphere(epsilon / 2.0, center, velocity);
+    this->spheres[i] = Sphere(epsilon / 2.0, center, velocity);
   }
 }
 
