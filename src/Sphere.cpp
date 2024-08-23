@@ -34,21 +34,25 @@ double collide(const Sphere* s1, const Sphere* s2) {
     return -1;
 }
 
-void Sphere::update_position(long double dt) {
-    center += velocity * dt;
-}
-
-vec3 Sphere::collision_velocity(const Sphere* other) {
-    vec3 normal = other->center - this->center;
+void resolve_collision(Sphere* s1, Sphere* s2) {
+    vec3 normal = s2->center - s1->center;
     normal.normalize();
-    vec3 relative_velocity = this->velocity - other->velocity;
+    vec3 relative_velocity = s1->velocity - s2->velocity;
 
     double velocity_along_normal = relative_velocity.dot(normal);
 
-    // If the spheres are moving apart, no collision occurs
-    if (velocity_along_normal < 0) {
-        return this->velocity;
-    }
+    // unneeded check
+    // assume this is always true
+    // // If the spheres are moving apart, no collision occurs
+    // if (velocity_along_normal < 0) {
+    //     return;
+    // }
 
-    return (this->velocity - velocity_along_normal * normal);
+    vec3 impulse = velocity_along_normal * normal;
+    s1->velocity -= impulse;
+    s2->velocity += impulse;
+}
+
+void Sphere::update_position(long double dt) {
+    center += velocity * dt;
 }

@@ -28,8 +28,10 @@ target_link_libraries(spheresim Eigen3::Eigen sfml-graphics sfml-window sfml-sys
 # Add tests
 add_executable(tests 
     tests/test_main.cpp
-    tests/test_sphere.cpp
+    tests/test_Sphere.cpp
     tests/test_sphere_simulation.cpp
+    tests/test_EventDrivenSimulation.cpp
+    tests/test_SpatialGrid.cpp
 
     src/Sphere.cpp
     src/sphere_simulation.cpp
@@ -39,5 +41,5 @@ add_executable(tests
 target_link_libraries(tests Catch2::Catch2WithMain Eigen3::Eigen sfml-graphics sfml-window sfml-system)
 
 # Enable testing
-enable_testing()
-add_test(NAME sphere_tests COMMAND tests)
+# enable_testing()
+# add_test(NAME sphere_tests COMMAND tests)

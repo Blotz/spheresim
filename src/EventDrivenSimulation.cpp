@@ -32,15 +32,21 @@ EventDrivenSimulation::EventDrivenSimulation(int n)
 }
 
 void EventDrivenSimulation::run_simulation() {
+  // event_queue nolonger contains every possible event
+  // while (!this->event_queue.empty() && this->current_time < MAX_SIMULATION_TIME) {
+  //   this->run_simulation_step();
+  // } 
+
   while (this->current_time < MAX_SIMULATION_TIME) {
-    if (this->event_queue.empty()) {
-      // no more events within max_dt
-      // move all spheres to their next position
-      this->grid.update_positions(this->max_dt);
-      this->initialize_events();
-      this->current_time += this->max_dt;
-    } else {
+    // if there are no more events within the maximum time step
+    // we need to step forward by the maximum time step
+    // and check for new events
+    if (!this->event_queue.empty()) {
       this->run_simulation_step();
+    } else {
+      this->grid.update_positions(this->max_dt);
+      this->current_time += this->max_dt;
+      this->initialize_events();
     }
   }
 }
@@ -67,11 +73,7 @@ void EventDrivenSimulation::handle_event(Event &event) {
     return;
   }
 
-  vec3 new_velocity1 = s1->collision_velocity(s2);
-  vec3 new_velocity2 = s2->collision_velocity(s1);
-
-  s1->set_velocity(new_velocity1);
-  s2->set_velocity(new_velocity2);
+  resolve_collision(s1, s2);
 
   s1->decrement_collision_checks();
   s2->decrement_collision_checks();
@@ -101,8 +103,7 @@ void EventDrivenSimulation::find_collision_events(Sphere *s) {
 
     double collision_time = collide(s, other);
     // discard event if spheres do not collide
-    // discard event if collision time is greater than max_dt
-    if (collision_time >= 0 && collision_time < this->max_dt) {
+    if (collision_time >= 0) {
       this->event_queue.push(
           Event(this->current_time + collision_time, s, other));
     }

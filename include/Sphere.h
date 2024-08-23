@@ -36,16 +36,20 @@ public:
    * returns -1 if there is no collision, otherwise returns the time of
    * collision.
    */
-  // double collide(const sphere *other) const;
-  // double collide(vec3& center, const sphere *other) const;
   friend double collide(const Sphere *s1, const Sphere *s2);
+
+  /**
+   * resolves the collision between two spheres. 
+  */
+  friend void resolve_collision(Sphere *s1, Sphere *s2);
+
 
   /**
    * calculates the velocity of the sphere after a collision with another
    * sphere. all spheres are assumed to have the same mass and collisions are
    * elastic.
    */
-  vec3 collision_velocity(const Sphere *other);
+  // vec3 collision_velocity(const Sphere *other);
 
   /**
    * updates the position of the sphere by time dt.

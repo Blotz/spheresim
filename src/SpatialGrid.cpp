@@ -41,6 +41,22 @@ SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count,
   }
 }
 
+SpatialGrid::SpatialGrid(long double cell_size, int grid_size, int sphere_count, Sphere *spheres) {
+  this->cell_size = cell_size;
+  this->grid_size = grid_size;
+  this->grid = new GridCell[grid_size * grid_size * grid_size];
+  this->sphere_count = sphere_count;
+  this->spheres = spheres;
+
+  if (this->grid == nullptr) {
+    throw std::bad_alloc();
+  }
+
+  for (int i = 0; i < this->sphere_count; i++) {
+    add_sphere(&this->spheres[i]);
+  }
+}
+
 SpatialGrid::~SpatialGrid() {
   if (this->grid != nullptr) {
     delete[] this->grid;
@@ -122,10 +138,11 @@ std::vector<GridCell *> SpatialGrid::get_nearby_cells(int cell_index) {
   }
 
   for (int i = 0; i < pow(3, DIMENSIONS); i++) {
+    // get the position of the neighboring cell
     point3 neighbor_pos = cell_pos;
     for (int j = 0; j < DIMENSIONS; j++) {
-      int shift = (i / (int) pow(3, j)) % 3 - 1;
-      neighbor_pos[j] += shift;
+      int offset = (i / (int) pow(3, j)) % 3 - 1;
+      neighbor_pos[j] += offset;
     }
 
     wrap_position(&neighbor_pos);

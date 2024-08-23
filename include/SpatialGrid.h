@@ -19,6 +19,7 @@ class SpatialGrid {
 public:
   SpatialGrid() = default;
   SpatialGrid(long double cell_size, int grid_size, int sphere_count, double sphere_radius);
+  SpatialGrid(long double cell_size, int grid_size, int sphere_count, Sphere *spheres);
   ~SpatialGrid();
 
   std::vector<Sphere *> get_nearby_spheres(Sphere *s);

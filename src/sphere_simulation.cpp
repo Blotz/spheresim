@@ -111,10 +111,7 @@ void sphere_simulation::handle_event(Event &event) {
   }
 
   // Update velocities
-  vec3 v1 = event.s1->collision_velocity(event.s2);
-  vec3 v2 = event.s2->collision_velocity(event.s1);
-  event.s1->set_velocity(v1);
-  event.s2->set_velocity(v2);
+  resolve_collision(event.s1, event.s2);
 
   // decrement collision checks
   event.s1->decrement_collision_checks();
