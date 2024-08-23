@@ -1,5 +1,4 @@
 #include <cmath>
-#include <memory>
 #include <queue>
 #include <random>
 #include <vector>
@@ -26,6 +25,5 @@ EventDrivenSimulation::EventDrivenSimulation(int n)
   long double cell_size = TORUS_SIZE / (long double)num_cells;
 
   // initialize grid
-  this->grid =
-      std::make_unique<SpatialGrid>(cell_size, num_cells, sphere_count, epsilon * 0.5);
+  this->grid = SpatialGrid(cell_size, num_cells, sphere_count, epsilon);
 }
